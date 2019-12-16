@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Daily notes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="./base.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+
+<div id="app">
+    <header>
+        <section class="hero is-medium is-info">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <h1 class="title is-1">Dailys</h1>
+                    <h1 class="subtitle">Todos/Goals/Schedule</h1>
+                </div>
+            </div>
+            <div class="hero-foot">
+                <nav class="tabs is-boxed is-fullwidth">
+                    <div class="container">
+                        <ul>
+                            <li :class="{ 'is-active': tab == 'todo' }">
+                                <a @click="tab = 'todo'">Todos/Goals</a>
+                            </li>
+                            <li :class="{ 'is-active': tab == 'schedule' }">
+                                <a @click="tab = 'schedule'" >Schedule</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </section>
+    </header>
+    <main>
+        <section class="section" v-show="tab == 'todo'">
+            <div class="container">
+                <div class="columns is-variable is-8">
+                    <div class="column is-6">
+                        <h2 class="title is-2 has-text-centered">My 5 Todos</h2>
+                        <div class="field">
+                            <label class="label">Add Todo</label>
+                            <div class="control has-icons-left">
+                                <input class="input " type="text" v-model="newTodo" @keyup.enter="addTodo" placeholder="Add your todo">
+                                <span class="icon is-medium is-left"><i class="fas fa-list-ol"></i></span>
+                            </div>
+                            <p class="help is-danger" v-if="errors.todos">{{ errors.todos }}</p>
+                        </div>
+                        <ol>
+                            <li  v-for="todo in todos" :class="{ 'is-done': todo.done == true }"><span style="padding-right: 60px">{{ todo.value }}</span>
+                                <span class="todo-icon" @click="todo.done = !todo.done"><i class="fas fa-check"></i></span>
+                                <span class="todo-icon" @click="removeTodo(todo)"><i class="fas fa-trash"></i></span>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="column is-6">
+                        <h2 class="title is-2 has-text-centered">My top 3 Goals</h2>
+                        <div class="field">
+                            <label class="label">Add your top 3 Goals</label>
+                            <div class="control has-icons-left has-icons-right">
+                                <input @keyup.enter="addGoal" v-model="newGoal" class="input" type="text" placeholder="Add your goal">
+                                <span class="icon is-medium is-left"><i class="fas fa-trophy"></i></span>
+                            </div>
+                            <p class="help is-danger" v-if="errors.prioGoals">{{ errors.prioGoals }}</p>
+                        </div>
+                        <ol>
+                            <li v-for="prioGoal in prioGoals" :class="{ 'is-done': prioGoal.done == true }"><span style="padding-right: 60px">{{ prioGoal.value }}</span>
+                                <span class="todo-icon" @click="prioGoal.done = !prioGoal.done"><i class="fas fa-check"></i></span>
+                                <span class="todo-icon" @click="removeGoal(prioGoal)"><i class="fas fa-trash"></i></span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section" v-show="tab == 'schedule'">
+            <div class="container">
+                <h2 class="title is-2 has-text-centered">My Schedule <br> <small>{{ date }}</small> </h2>
+                <table class="table is-bordered">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">08 - 09</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <p v-if="hours['1'] == null" class="control">
+                                                <input class="input" type="text" placeholder="Add your todo" @keyup.enter="addHourTodo(1, $event.target.value)" >
+                                            </p>
+                                            <p v-if="hours['1'] !== null" class="hourly-todo" :class="{ 'is-done': hours['1'].done == true }">
+                                                {{ hours['1'].value}}
+                                                <span class="todo-icon" @click="hours['1'].done = !hours['1'].done"><i class="fas fa-check"></i></span>
+                                                <span class="todo-icon"  @click="removeHourTodo(1)"><i class="fas fa-trash"></i></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">13 - 14</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <p v-if="hours['6'] == null" class="control">
+                                                <input class="input" type="text" placeholder="Add your todo" @keyup.enter="addHourTodo(6, $event.target.value)" >
+                                            </p>
+                                            <p v-if="hours['6'] !== null" class="hourly-todo" :class="{ 'is-done': hours['6'].done == true }">
+                                                {{ hours['6'].value }}
+                                                <span class="todo-icon" @click="hours['6'].done = !hours['6'].done"><i class="fas fa-check"></i></span>
+                                                <span class="todo-icon"  @click="removeHourTodo(6)"><i class="fas fa-trash"></i></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">09 - 10</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <p v-if="hours['2'] == null" class="control">
+                                                <input class="input" type="text" placeholder="Add your todo" @keyup.enter="addHourTodo(2, $event.target.value)" >
+                                            </p>
+                                            <p v-if="hours['2'] !== null" class="hourly-todo" :class="{ 'is-done': hours['2'].done == true }">
+                                                {{ hours['2'].value }}
+                                                <span class="todo-icon" @click="hours['2'].done = !hours['2'].done"><i class="fas fa-check"></i></span>
+                                                <span class="todo-icon"  @click="removeHourTodo(2)"><i class="fas fa-trash"></i></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">14 - 15</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <p v-if="hours['7'] == null" class="control">
+                                                <input class="input" type="text" placeholder="Add your todo" @keyup.enter="addHourTodo(7, $event.target.value)" >
+                                            </p>
+                                            <p v-if="hours['7'] !== null" class="hourly-todo" :class="{ 'is-done': hours['7'].done == true }">
+                                                {{ hours['7'].value }}
+                                                <span class="todo-icon" @click="hours['7'].done = !hours['7'].done"><i class="fas fa-check"></i></span>
+                                                <span class="todo-icon"  @click="removeHourTodo(7)"><i class="fas fa-trash"></i></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">10 - 11</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <p v-if="hours['3'] == null" class="control">
+                                                <input class="input" type="text" placeholder="Add your todo" @keyup.enter="addHourTodo(3, $event.target.value)" >
+                                            </p>
+                                            <p v-if="hours['3'] !== null" class="hourly-todo" :class="{ 'is-done': hours['3'].done == true }">
+                                                {{ hours['3'].value }}
+                                                <span class="todo-icon" @click="hours['3'].done = !hours['3'].done"><i class="fas fa-check"></i></span>
+                                                <span class="todo-icon"  @click="removeHourTodo(3)"><i class="fas fa-trash"></i></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">15 - 16</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <p v-if="hours['8'] == null" class="control">
+                                                <input class="input" type="text" placeholder="Add your todo" @keyup.enter="addHourTodo(8, $event.target.value)" >
+                                            </p>
+                                            <p v-if="hours['8'] !== null" class="hourly-todo" :class="{ 'is-done': hours['8'].done == true }">
+                                                {{ hours['8'].value }}
+                                                <span class="todo-icon" @click="hours['8'].done = !hours['8'].done"><i class="fas fa-check"></i></span>
+                                                <span class="todo-icon"  @click="removeHourTodo(8)"><i class="fas fa-trash"></i></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">11 - 12</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <p v-if="hours['4'] == null" class="control">
+                                                <input class="input" type="text" placeholder="Add your todo" @keyup.enter="addHourTodo(4, $event.target.value)" >
+                                            </p>
+                                            <p v-if="hours['4'] !== null" class="hourly-todo" :class="{ 'is-done': hours['4'].done == true }">
+                                                {{ hours['4'].value }}
+                                                <span class="todo-icon" @click="hours['4'].done = !hours['4'].done"><i class="fas fa-check"></i></span>
+                                                <span class="todo-icon"  @click="removeHourTodo(4)"><i class="fas fa-trash"></i></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">16 - 17</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <p v-if="hours['9'] == null" class="control">
+                                                <input class="input" type="text" placeholder="Add your todo" @keyup.enter="addHourTodo(9, $event.target.value)" >
+                                            </p>
+                                            <p v-if="hours['9'] !== null" class="hourly-todo" :class="{ 'is-done': hours['9'].done == true }">
+                                                {{ hours['9'].value }}
+                                                <span class="todo-icon" @click="hours['9'].done = !hours['9'].done"><i class="fas fa-check"></i></span>
+                                                <span class="todo-icon"  @click="removeHourTodo(9)"><i class="fas fa-trash"></i></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">12 - 13</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <p v-if="hours['5'] == null" class="control">
+                                                <input class="input" type="text" placeholder="Add your todo" @keyup.enter="addHourTodo(5, $event.target.value)" >
+                                            </p>
+                                            <p v-if="hours['5'] !== null" class="hourly-todo" :class="{ 'is-done': hours['5'].done == true }">
+                                                {{ hours['5'].value }}
+                                                <span class="todo-icon" @click="hours['5'].done = !hours['5'].done"><i class="fas fa-check"></i></span>
+                                                <span class="todo-icon"  @click="removeHourTodo(5)"><i class="fas fa-trash"></i></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">17 - 18</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <p v-if="hours['10'] == null" class="control">
+                                                <input class="input" type="text" placeholder="Add your todo" @keyup.enter="addHourTodo(10, $event.target.value)" >
+                                            </p>
+                                            <p v-if="hours['10'] !== null" class="hourly-todo" :class="{ 'is-done': hours['10'].done == true }">
+                                                {{ hours['10'].value }}
+                                                <span class="todo-icon" @click="hours['10'].done = !hours['10'].done"><i class="fas fa-check"></i></span>
+                                                <span class="todo-icon"  @click="removeHourTodo(10)"><i class="fas fa-trash"></i></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+
+<script src="./base.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Raleway&display=swap');
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    /*font-family: 'Abril Fatface', serif;*/
+    font-family: 'Raleway', sans-serif;
+}
+
+.title{
+    font-family: 'Abril Fatface', serif;
+}
+
+ol {
+    list-style: none;
+    counter-reset: my-awesome-counter;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+ol li {
+    counter-increment: my-awesome-counter;
+    display: flex;
+    width: 100%;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    min-height: 0.77rem;
+    position: relative;
+}
+
+ol li:first-child {
+    margin-top: 1.5rem;
+}
+
+ol li::before {
+    content: "0" counter(my-awesome-counter);
+    font-weight: bold;
+    font-size: 2rem;
+    margin-right: 0.5rem;
+    line-height: 1;
+    font-family: 'Abril Fatface', serif;
+}
+
+.is-done{
+    text-decoration: line-through;
+    color:lightgray;
+}
+
+
+.todo-icon{
+    font-size: 0.8rem;
+    margin-left: 2rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    position: absolute;
+    right: 25px;
+}
+
+.fa-trash{
+    color: black;
+    right: 3px;
+    position: absolute;
+    left: 10px;
+    top: 3px;
+}
+
+table{
+    width: 100%;
+    table-layout:fixed;
+}
+.table{
+    word-break: break-word;
+}
+
+.table.is-bordered td, .table.is-bordered th {
+    width: 50% !important;
+}
+
+.weekplan{
+    border: 1px solid black;
+}
+
+.field-label .label{
+    font-size: 1rem;
+    font-family: 'Abril Fatface', serif;
+}
+
+.hourly-todo {
+    margin: 7px;
+    position: relative;
+}
+
+/*.hourly-todo:hover::after {*/
+/*    content: "X" ;*/
+/*    font-weight: bold;*/
+/*    color: red;*/
+/*    font-size: 0.8rem;*/
+/*    margin: auto;*/
+/*    line-height: 1;*/
+/*}*/
