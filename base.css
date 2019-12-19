@@ -24,7 +24,7 @@ ol li {
     counter-increment: my-awesome-counter;
     display: flex;
     width: 100%;
-    font-size: 1.8rem;
+    font-size: 1.0rem;
     margin-bottom: 1.5rem;
     min-height: 0.77rem;
     position: relative;
@@ -41,6 +41,11 @@ ol li::before {
     margin-right: 0.5rem;
     line-height: 1;
     font-family: 'Abril Fatface', serif;
+}
+
+.list-text{
+    padding-right: 60px;
+    padding-top: 8px;
 }
 
 .is-done{

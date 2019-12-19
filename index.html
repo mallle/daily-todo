@@ -54,7 +54,7 @@
                             <p class="help is-danger" v-if="errors.todos">{{ errors.todos }}</p>
                         </div>
                         <ol>
-                            <li  v-for="todo in todos" :class="{ 'is-done': todo.done == true }"><span style="padding-right: 60px">{{ todo.value }}</span>
+                            <li  v-for="todo in todos" :class="{ 'is-done': todo.done == true }"><span class="list-text">{{ todo.value }}</span>
                                 <span class="todo-icon" @click="todo.done = !todo.done"><i class="fas fa-check"></i></span>
                                 <span class="todo-icon" @click="removeTodo(todo)"><i class="fas fa-trash"></i></span>
                             </li>
