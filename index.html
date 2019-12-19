@@ -71,7 +71,7 @@
                             <p class="help is-danger" v-if="errors.prioGoals">{{ errors.prioGoals }}</p>
                         </div>
                         <ol>
-                            <li v-for="prioGoal in prioGoals" :class="{ 'is-done': prioGoal.done == true }"><span style="padding-right: 60px">{{ prioGoal.value }}</span>
+                            <li v-for="prioGoal in prioGoals" :class="{ 'is-done': prioGoal.done == true }"><span class="list-text">{{ prioGoal.value }}</span>
                                 <span class="todo-icon" @click="prioGoal.done = !prioGoal.done"><i class="fas fa-check"></i></span>
                                 <span class="todo-icon" @click="removeGoal(prioGoal)"><i class="fas fa-trash"></i></span>
                             </li>
