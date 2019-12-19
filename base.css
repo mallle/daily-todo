@@ -93,10 +93,6 @@ table{
 }
 
 
-footer {
-    bottom: 0;
-    left: 0;
-    position: fixed;
-    right: 0;
-    z-index: 30;
+.main-content{
+    min-height: calc(100vh - 140px);
 }
