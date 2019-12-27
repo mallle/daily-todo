@@ -72,8 +72,8 @@ let app = new Vue({
     computed: {
         date: function() {
             let currentDate = new Date();
-
-            return currentDate.getDate() + ' - ' + currentDate.getMonth() + ' - ' + currentDate.getFullYear();
+            let month = currentDate.getMonth() + 1;
+            return currentDate.getDate() + ' - ' + month + ' - ' + currentDate.getFullYear();
         }
     },
     methods: {
