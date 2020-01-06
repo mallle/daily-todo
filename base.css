@@ -39,13 +39,13 @@ ol li::before {
     font-weight: bold;
     font-size: 2rem;
     margin-right: 0.5rem;
+    margin-top: 0.1rem;
     line-height: 1;
     font-family: 'Abril Fatface', serif;
 }
 
 .list-text{
-    padding-right: 60px;
-    padding-top: 8px;
+    padding: 9px 60px 0px 10px;
 }
 
 .is-done{
@@ -57,7 +57,6 @@ ol li::before {
 .todo-icon{
     font-size: 0.8rem;
     margin-left: 2rem;
-    margin-top: 0.5rem;
     cursor: pointer;
     position: absolute;
     right: 25px;
@@ -83,19 +82,33 @@ table{
     width: 50% !important;
 }
 
-.weekplan{
-    border: 1px solid black;
+ol.schedule li::before {
+    content: ''
 }
 
-.field-label .label{
-    font-size: 1rem;
+.time{
+    width: 5rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+    line-height: 1;
     font-family: 'Abril Fatface', serif;
 }
 
-.hourly-todo {
-    margin: 7px;
-    position: relative;
+.field{
+    width: 100%;
 }
+
+/*.field-label .label{*/
+/*    font-size: 1rem;*/
+/*    font-family: 'Abril Fatface', serif;*/
+/*}*/
+
+/*.hourly-todo {*/
+/*    margin: 7px;*/
+/*    position: relative;*/
+/*}*/
 
 
 .main-content{
