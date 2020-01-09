@@ -94,7 +94,7 @@ let app = new Vue({
           });
           this.prioGoals = prioGoals;
 
-          for( let i = 1; i <= 2; i++) {
+          for( let i = 1; i <= 10; i++) {
               this.hours[i] = JSON.parse( localStorage.getItem('todo_app_hours_' + i) || []);
           }
       })
@@ -176,8 +176,7 @@ let app = new Vue({
             localStorage.setItem(STORAGE_KEY_GOAL, JSON.stringify(goals));
         },
         saveHoursToLocalStorage: function (hours) {
-
-            for( let i = 1; i <= 2; i++) {
+            for( let i = 1; i <= 10; i++) {
                 localStorage.setItem('todo_app_hours_' + i, JSON.stringify(hours[i]))
             }
         },
