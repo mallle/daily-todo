@@ -213,10 +213,15 @@
             </p>
             <form
               name="ask-question"
-              method="POST"
-              data-netlify="true"
-              data-netlify-honeypot="bot-field"
+              netlify
+              netlify-honeypot="bot-field"
+              hidden
             >
+              <input type="text" name="name" />
+              <input type="email" name="email" />
+              <textarea name="question"></textarea>
+            </form>
+            <form name="ask-question" method="POST" netlify>
               <input type="hidden" name="form-name" value="ask-question" />
               <div class="field">
                 <label class="label has-text-white">Your Name:</label>
@@ -245,7 +250,7 @@
                 <div class="control">
                   <textarea
                     class="textarea"
-                    name="message"
+                    name="question"
                     placeholder="Explain how we can help you"
                   ></textarea>
                 </div>
