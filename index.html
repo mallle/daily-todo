@@ -1,159 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>Daily notes</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <link rel="stylesheet" href="./base.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
+    />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
+    <link rel="stylesheet" href="./base.css" />
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
 
-</head>
-
-<body>
-
-<div id="app">
-    <header>
+  <body>
+    <div id="app">
+      <header>
         <section class="hero is-medium is-info">
-            <div class="hero-body">
-                <div class="container has-text-centered">
-                    <h1 class="title is-1">Dailys</h1>
-                    <h1 class="subtitle">Todos/Goals/Schedule</h1>
-                </div>
+          <div class="hero-body">
+            <div class="container has-text-centered">
+              <h1 class="title is-1">Dailys</h1>
+              <h1 class="subtitle">Todos/Goals/Schedule</h1>
             </div>
-            <div class="hero-foot">
-                <nav class="tabs is-boxed is-fullwidth">
-                    <div class="container">
-                        <ul>
-                            <li :class="{ 'is-active': tab == 'todo' }">
-                                <a @click="tab = 'todo'">Todos/Goals</a>
-                            </li>
-                            <li :class="{ 'is-active': tab == 'schedule' }">
-                                <a @click="tab = 'schedule'" >Schedule</a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
+          </div>
+          <div class="hero-foot">
+            <nav class="tabs is-boxed is-fullwidth">
+              <div class="container">
+                <ul>
+                  <li :class="{ 'is-active': tab == 'todo' }">
+                    <a @click="tab = 'todo'">Todos/Goals</a>
+                  </li>
+                  <li :class="{ 'is-active': tab == 'schedule' }">
+                    <a @click="tab = 'schedule'">Schedule</a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
         </section>
-    </header>
-    <main class="main-content">
+      </header>
+      <main class="main-content">
         <section class="section" v-show="tab == 'todo'">
-            <div class="container">
-                <div class="columns is-variable is-8">
-                    <div class="column is-6">
-                        <h2 class="title is-2 has-text-centered">My Todos</h2>
-                        <div class="field">
-                            <label class="label">Add Todo</label>
-                            <div class="control has-icons-left">
-                                <input class="input " type="text" v-model="newTodo" @keyup.enter="addTodo" placeholder="Add your todo">
-                                <span class="icon is-medium is-left"><i class="fas fa-list-ol"></i></span>
-                            </div>
-                            <p class="help is-danger" v-if="errors.todos">{{ errors.todos }}</p>
-                        </div>
-                        <ol>
-                            <li  v-for="todo in todos" :class="{ 'is-done': todo.done == true }">
-                                <div v-if="!todo.edit" class="list-text" >
-                                    <label @dblclick="edit(todo)">{{ todo.value }}</label>
-                                    <span class="todo-icon" @click="todo.done = !todo.done"><i class="fas fa-check"></i></span>
-                                    <span class="todo-icon" @click="removeTodo(todo)"><i class="fas fa-trash"></i></span>
-                                </div>
-                                <div class="field" v-if="todo.edit">
-                                    <input class="input" type="text"
-                                           v-model="todo.value"
-                                           v-goal-focus="todo == editedObj"
-                                           @blur="doneEdit(todo)"
-                                           @keyup.enter="doneEdit(todo)"
-                                           @keyup.esc="cancelEdit(todo)"
-                                    >
-                                </div>
-                            </li>
-                        </ol>
-                    </div>
-                    <div class="column is-6">
-                        <h2 class="title is-2 has-text-centered">My top 3 Goals</h2>
-                        <div class="field">
-                            <label class="label">Add your top 3 Goals</label>
-                            <div class="control has-icons-left has-icons-right">
-                                <input @keyup.enter="addGoal" v-model="newGoal" class="input" type="text" placeholder="Add your goal">
-                                <span class="icon is-medium is-left"><i class="fas fa-trophy"></i></span>
-                            </div>
-                            <p class="help is-danger" v-if="errors.prioGoals">{{ errors.prioGoals }}</p>
-                        </div>
-                        <ol>
-                            <li v-for="prioGoal in prioGoals" :class="{ 'is-done': prioGoal.done == true }"  >
-                               <div v-if="!prioGoal.edit" class="list-text" >
-                                    <label @dblclick="edit(prioGoal)">{{ prioGoal.value }}</label>
-                                    <span class="todo-icon" @click="prioGoal.done = !prioGoal.done"><i class="fas fa-check"></i></span>
-                                    <span class="todo-icon" @click="removeGoal(prioGoal)"><i class="fas fa-trash"></i></span>
-                                </div>
-                                <div class="field" v-if="prioGoal.edit">
-                                    <input class="input" type="text"
-                                           v-model="prioGoal.value"
-                                           v-goal-focus="prioGoal == editedObj"
-                                           @blur="doneEdit(prioGoal)"
-                                           @keyup.enter="doneEdit(prioGoal)"
-                                           @keyup.esc="cancelEdit(prioGoal)"
-                                    >
-                                </div>
-                            </li>
-                        </ol>
-                    </div>
+          <div class="container">
+            <div class="columns is-variable is-8">
+              <div class="column is-6">
+                <h2 class="title is-2 has-text-centered">My Todos</h2>
+                <div class="field">
+                  <label class="label">Add Todo</label>
+                  <div class="control has-icons-left">
+                    <input
+                      class="input"
+                      type="text"
+                      v-model="newTodo"
+                      @keyup.enter="addTodo"
+                      placeholder="Add your todo"
+                    />
+                    <span class="icon is-medium is-left"
+                      ><i class="fas fa-list-ol"></i
+                    ></span>
+                  </div>
+                  <p class="help is-danger" v-if="errors.todos">
+                    {{ errors.todos }}
+                  </p>
                 </div>
+                <ol>
+                  <li
+                    v-for="todo in todos"
+                    :class="{ 'is-done': todo.done == true }"
+                  >
+                    <div v-if="!todo.edit" class="list-text">
+                      <label @dblclick="edit(todo)">{{ todo.value }}</label>
+                      <span class="todo-icon" @click="todo.done = !todo.done"
+                        ><i class="fas fa-check"></i
+                      ></span>
+                      <span class="todo-icon" @click="removeTodo(todo)"
+                        ><i class="fas fa-trash"></i
+                      ></span>
+                    </div>
+                    <div class="field" v-if="todo.edit">
+                      <input
+                        class="input"
+                        type="text"
+                        v-model="todo.value"
+                        v-goal-focus="todo == editedObj"
+                        @blur="doneEdit(todo)"
+                        @keyup.enter="doneEdit(todo)"
+                        @keyup.esc="cancelEdit(todo)"
+                      />
+                    </div>
+                  </li>
+                </ol>
+              </div>
+              <div class="column is-6">
+                <h2 class="title is-2 has-text-centered">My top 3 Goals</h2>
+                <div class="field">
+                  <label class="label">Add your top 3 Goals</label>
+                  <div class="control has-icons-left has-icons-right">
+                    <input
+                      @keyup.enter="addGoal"
+                      v-model="newGoal"
+                      class="input"
+                      type="text"
+                      placeholder="Add your goal"
+                    />
+                    <span class="icon is-medium is-left"
+                      ><i class="fas fa-trophy"></i
+                    ></span>
+                  </div>
+                  <p class="help is-danger" v-if="errors.prioGoals">
+                    {{ errors.prioGoals }}
+                  </p>
+                </div>
+                <ol>
+                  <li
+                    v-for="prioGoal in prioGoals"
+                    :class="{ 'is-done': prioGoal.done == true }"
+                  >
+                    <div v-if="!prioGoal.edit" class="list-text">
+                      <label @dblclick="edit(prioGoal)"
+                        >{{ prioGoal.value }}</label
+                      >
+                      <span
+                        class="todo-icon"
+                        @click="prioGoal.done = !prioGoal.done"
+                        ><i class="fas fa-check"></i
+                      ></span>
+                      <span class="todo-icon" @click="removeGoal(prioGoal)"
+                        ><i class="fas fa-trash"></i
+                      ></span>
+                    </div>
+                    <div class="field" v-if="prioGoal.edit">
+                      <input
+                        class="input"
+                        type="text"
+                        v-model="prioGoal.value"
+                        v-goal-focus="prioGoal == editedObj"
+                        @blur="doneEdit(prioGoal)"
+                        @keyup.enter="doneEdit(prioGoal)"
+                        @keyup.esc="cancelEdit(prioGoal)"
+                      />
+                    </div>
+                  </li>
+                </ol>
+              </div>
             </div>
+          </div>
         </section>
         <section class="section" v-show="tab == 'schedule'">
-            <div class="container">
-                <h2 class="title is-2 has-text-centered">My Schedule <br> <small>{{ date }}</small> </h2>
-                <div class="columns is-centered">
-                    <div class="column is-half">
-                        <table class="table is-bordered">
-                            <tbody>
-                                <tr v-for="(todo, key) in hours">
-                                    <td >
-
-                                        <ol class="schedule">
-                                            <li :class="{ 'is-done': todo.done == true }" >
-                                                <label class="time" >{{ todo.time }}</label>
-                                                <div v-if="!todo.edit" class="list-text" >
-                                                    <label @dblclick="edit(todo)">{{ todo.value }}</label>
-                                                    <span class="todo-icon" @click="todo.done = !todo.done"><i class="fas fa-check"></i></span>
-                                                    <span class="todo-icon" @click="removeHourTodo(key), todo.edit = true, todo.done = false"><i class="fas fa-trash"></i></span>
-                                                </div>
-                                                <div class="field" v-if="todo.edit">
-                                                    <input class="input" type="text"
-                                                           v-model="todo.value"
-                                                           @blur="doneEdit(todo)"
-                                                           @keyup.enter="doneEdit(todo)"
-                                                           @keyup.esc="cancelEdit(todo)"
-                                                    >
-                                                </div>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+          <div class="container">
+            <h2 class="title is-2 has-text-centered">
+              My Schedule <br />
+              <small>{{ date }}</small>
+            </h2>
+            <div class="columns is-centered">
+              <div class="column is-half">
+                <table class="table is-bordered">
+                  <tbody>
+                    <tr v-for="(todo, key) in hours">
+                      <td>
+                        <ol class="schedule">
+                          <li :class="{ 'is-done': todo.done == true }">
+                            <label class="time">{{ todo.time }}</label>
+                            <div v-if="!todo.edit" class="list-text">
+                              <label @dblclick="edit(todo)"
+                                >{{ todo.value }}</label
+                              >
+                              <span
+                                class="todo-icon"
+                                @click="todo.done = !todo.done"
+                                ><i class="fas fa-check"></i
+                              ></span>
+                              <span
+                                class="todo-icon"
+                                @click="removeHourTodo(key), todo.edit = true, todo.done = false"
+                                ><i class="fas fa-trash"></i
+                              ></span>
+                            </div>
+                            <div class="field" v-if="todo.edit">
+                              <input
+                                class="input"
+                                type="text"
+                                v-model="todo.value"
+                                @blur="doneEdit(todo)"
+                                @keyup.enter="doneEdit(todo)"
+                                @keyup.esc="cancelEdit(todo)"
+                              />
+                            </div>
+                          </li>
+                        </ol>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </div>
         </section>
-    </main>
-    <footer class="footer has-background-info">
-        <div class="content has-text-centered">
+      </main>
+      <footer class="footer has-background-info">
+        <div class="container">
+          <div class="columns">
+            <div class="column is-half">
+              <h4 class="title is-4 has-text-white has-text-centered">
+                Have a questions?
+              </h4>
+              <p class="subtitle has-text-white has-text-centered">
+                - just write me!
+              </p>
+              <form name="contact" method="POST" data-netlify="true">
+                <div class="field">
+                  <label class="label has-text-white">Your Name:</label>
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="text"
+                      name="name"
+                      placeholder="Text input"
+                    />
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label has-text-white">Your Name:</label>
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="email"
+                      name="email"
+                      placeholder="Text input"
+                    />
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label has-text-white">Your Question:</label>
+                  <div class="control">
+                    <textarea
+                      class="textarea"
+                      name="message"
+                      placeholder="Explain how we can help you"
+                    ></textarea>
+                  </div>
+                </div>
+                <div data-netlify-recaptcha="true"></div>
+                <p>
+                  <a class="button is-dark is-pulled-right" type="submit">
+                    Send
+                  </a>
+                </p>
+              </form>
+            </div>
+          </div>
+          <div class="content has-text-centered">
             <p class="has-text-white is-pulled-right">
-                <a class="has-text-white" href="legalnotice.html">
-                    Legal Notice and Privacy Policy
-                </a>
+              <a class="has-text-white" href="legalnotice.html">
+                Legal Notice and Privacy Policy
+              </a>
             </p>
+          </div>
         </div>
-    </footer>
-</div>
+      </footer>
+    </div>
 
-
-<script src="./base.js"></script>
-
-</body>
+    <script src="./base.js"></script>
+  </body>
 </html>
