@@ -212,12 +212,12 @@
                 - just write me!
               </p>
               <form>
-                <p>
-                  <label>
-                    Your Name:
-                    <input type="text" name="name" v-model="form.name" />
-                  </label>
-                </p>
+                <div class="field">
+                    <label class="label has-text-white">Your Name:</label>
+                    <div class="control">
+                      <input class="input" type="text" name="name" v-model="form.name">
+                    </div>
+                  </div>
                 <p>
                   <label>
                     Your Email:
@@ -229,6 +229,9 @@
                     Message:
                     <textarea name="message" v-model="form.message"></textarea>
                   </label>
+                </p>
+                <p>
+                    <div data-netlify-recaptcha="true"></div>
                 </p>
                 <p>
                   <button type="submit" @click.prevent="handleSubmit">
