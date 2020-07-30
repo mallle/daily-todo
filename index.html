@@ -211,7 +211,13 @@
               <p class="subtitle has-text-white has-text-centered">
                 - just write me!
               </p>
-              <form>
+              <form
+                name="ask-question"
+                method="post"
+                data-netlify="true"
+                data-netlify-honeypot="bot-field"
+              >
+                <input type="hidden" name="form-name" value="ask-question" />
                 <div class="field">
                   <label class="label has-text-white">Your Name:</label>
                   <div class="control">
@@ -272,7 +278,7 @@
         </div>
       </footer>
     </div>
-    <form netlify netlify-honeypot="bot-field" hidden>
+    <form name="ask-question" netlify netlify-honeypot="bot-field" hidden>
       <input type="text" name="name" />
       <input type="email" name="email" />
       <textarea name="message"></textarea>
