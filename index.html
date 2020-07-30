@@ -200,80 +200,54 @@
           </div>
         </section>
       </main>
-    </div>
-    <footer class="footer has-background-info">
-      <div class="container">
-        <div class="columns">
-          <div class="column is-half">
-            <h4 class="title is-4 has-text-white has-text-centered">
-              Have a questions?
-            </h4>
-            <p class="subtitle has-text-white has-text-centered">
-              - just write me!
-            </p>
-            <form
-              name="ask-question"
-              netlify
-              netlify-honeypot="bot-field"
-              hidden
-            >
-              <input type="text" name="name" />
-              <input type="email" name="email" />
-              <textarea name="question"></textarea>
-            </form>
-            <form name="ask-question" method="POST" netlify>
-              <input type="hidden" name="form-name" value="ask-question" />
-              <div class="field">
-                <label class="label has-text-white">Your Name:</label>
-                <div class="control">
-                  <input
-                    class="input"
-                    type="text"
-                    name="name"
-                    placeholder="Text input"
-                  />
-                </div>
-              </div>
-              <div class="field">
-                <label class="label has-text-white">Your Email:</label>
-                <div class="control">
-                  <input
-                    class="input"
-                    type="email"
-                    name="email"
-                    placeholder="Text input"
-                  />
-                </div>
-              </div>
-              <div class="field">
-                <label class="label has-text-white">Your Question:</label>
-                <div class="control">
-                  <textarea
-                    class="textarea"
-                    name="question"
-                    placeholder="Explain how we can help you"
-                  ></textarea>
-                </div>
-              </div>
-              <div data-netlify-recaptcha="true"></div>
-              <p>
-                <a class="button is-dark is-pulled-right" type="submit">
-                  Send
-                </a>
+
+      <footer class="footer has-background-info">
+        <div class="container">
+          <div class="columns">
+            <div class="column is-half">
+              <h4 class="title is-4 has-text-white has-text-centered">
+                Have a questions?
+              </h4>
+              <p class="subtitle has-text-white has-text-centered">
+                - just write me!
               </p>
-            </form>
+              <form>
+                <p>
+                  <label>
+                    Your Name:
+                    <input type="text" name="name" v-model="form.name" />
+                  </label>
+                </p>
+                <p>
+                  <label>
+                    Your Email:
+                    <input type="email" name="email" v-model="form.email" />
+                  </label>
+                </p>
+                <p>
+                  <label>
+                    Message:
+                    <textarea name="message" v-model="form.message"></textarea>
+                  </label>
+                </p>
+                <p>
+                  <button type="submit" @click.prevent="handleSubmit">
+                    Send
+                  </button>
+                </p>
+              </form>
+            </div>
+          </div>
+          <div class="content has-text-centered">
+            <p class="has-text-white is-pulled-right">
+              <a class="has-text-white" href="legalnotice.html">
+                Legal Notice and Privacy Policy
+              </a>
+            </p>
           </div>
         </div>
-        <div class="content has-text-centered">
-          <p class="has-text-white is-pulled-right">
-            <a class="has-text-white" href="legalnotice.html">
-              Legal Notice and Privacy Policy
-            </a>
-          </p>
-        </div>
-      </div>
-    </footer>
-
+      </footer>
+    </div>
     <script src="./base.js"></script>
   </body>
 </html>
