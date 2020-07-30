@@ -213,31 +213,52 @@
               </p>
               <form>
                 <div class="field">
-                    <label class="label has-text-white">Your Name:</label>
-                    <div class="control">
-                      <input class="input" type="text" name="name" v-model="form.name">
-                    </div>
+                  <label class="label has-text-white">Your Name:</label>
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="text"
+                      name="name"
+                      v-model="form.name"
+                    />
                   </div>
-                <p>
-                  <label>
-                    Your Email:
-                    <input type="email" name="email" v-model="form.email" />
-                  </label>
-                </p>
-                <p>
-                  <label>
-                    Message:
-                    <textarea name="message" v-model="form.message"></textarea>
-                  </label>
-                </p>
-                <p>
-                    <div data-netlify-recaptcha="true"></div>
-                </p>
-                <p>
-                  <button type="submit" @click.prevent="handleSubmit">
-                    Send
-                  </button>
-                </p>
+                </div>
+                <div class="field">
+                  <label class="label has-text-white">Your Email:</label>
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="email"
+                      name="email"
+                      v-model="form.email"
+                    />
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label has-text-white">Message:</label>
+                  <div class="control">
+                    <textarea
+                      class="textarea"
+                      type="email"
+                      name="message"
+                      v-model="form.message"
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div data-netlify-recaptcha="true"></div>
+
+                <div class="field">
+                  <div class="control">
+                    <button
+                      class="button is-dark"
+                      type="submit"
+                      @click.prevent="handleSubmit"
+                    >
+                      Send message
+                    </button>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
