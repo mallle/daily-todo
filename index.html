@@ -245,9 +245,9 @@
                     ></textarea>
                   </div>
                 </div>
-
-                <div data-netlify-recaptcha="true"></div>
-
+                <div class="field">
+                  <div data-netlify-recaptcha="true"></div>
+                </div>
                 <div class="field">
                   <div class="control">
                     <button
@@ -272,6 +272,12 @@
         </div>
       </footer>
     </div>
+    <form netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+      <div data-netlify-recaptcha="true"></div>
+    </form>
     <script src="./base.js"></script>
   </body>
 </html>
